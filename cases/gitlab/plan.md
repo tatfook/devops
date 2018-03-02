@@ -7,28 +7,10 @@
 
 ## api
 
-统计keepwork所调用的gitlab api有哪些以及它们各自调用的频率是多少
 
-对前一个的nginx日志统计计算，由goaccess进行分析，生成result.html报表
+keepwork对gitlab的访问无外乎资源的访问，以下的表格统计了主要资源访问的方式与在日志中检索到的次数
 
-可以分析出大部分对于gitlab的访问，集中于项目的写入与读取。挑选出其中占比80的接口，作出统计
-
-由于CDN对静态md文件的缓存，导致统计的文件读次数要少很多
-
-用户，项目，仓库，文件
-增，删，查，更新
-
-top requests (URLs)
-
-|hits|method|url|doc|desc|
-|----|------|---|---|----|
-|4141|POST|/api/v4/projects|https://docs.gitlab.com/ee/api/projects.html#create-project|创建项目|
-|3838|POST|/api/v4/users|https://docs.gitlab.com/ee/api/users.html#user-creation|创建用户|
-|3794|GET|/api/v4/projects?owned=true&search=keepworkdatasource|项目搜索|
-|    |GET|/[gitlab user]/[project name]/raw/[file path] |非api， 直接访问项目文件 |
-||GET|/api/v4/projects/[repo id]/repository/tree?[params]|获取项目目录结构|
-||GET|/api/v4/projects/[repo id]/repository/files/[path]?[params] |获取项目文件|
-
+> 对用户，项目，仓库，文件的增，删，查，更新
 
 
 |实体|操作    |帮助 |method|url|hits|hit how to|
@@ -41,13 +23,19 @@ top requests (URLs)
 |项目|删除|https://docs.gitlab.com/ee/api/projects.html#remove-project|DELETE|/api/v4/projects/:id| 0 | `grep -E 'DELETE /api/v4/projects/[0-9]+[ ?]'`|
 |项目|修改|https://docs.gitlab.com/ee/api/projects.html#edit-project|PUT|/api/v4/projects/:id| 2 | `grep -E 'PUT /api/v4/projects/[0-9]+[ ?]'`|
 |项目|查找|https://docs.gitlab.com/ee/api/projects.html#list-all-projects |GET|/api/v4/projects | 4192         |  `grep -E 'GET /api/v4/projects[ ?]'` |
+|仓库|查看tree|https://docs.gitlab.com/ee/api/repositories.html#list-repository-tree|GET|/api/v4/projects/:id/repository/tree| 21179 | `grep -E 'GET /api/v4/projects/[[:digit:]]+/repository/tree[ ?]'`|
+|文件|查看|https://docs.gitlab.com/ee/api/repository_files.html#get-file-from-repository|GET|/api/v4/projects/:id/repository/files/:file_path | 19745 | `grep -E 'GET /api/v4/projects/[[:digit:]]+/repository/files/'` |
+|文件|查看，非api方式| no            | GET | /:user_name/:project_name/raw/:commit_id/:file_path | 59588 | `grep -E 'GET /.*/raw/([[:alnum:]]+|master)/'` |
+|文件|新建|   https://docs.gitlab.com/ee/api/repository_files.html#create-new-file-in-repository   |POST| /api/v4/projects/:id/repository/files/:file_path  | 73629 | `grep -E 'POST /api/v4/projects/[[:digit:]]+/repository/files/'` |
+|文件|更新|https://docs.gitlab.com/ee/api/repository_files.html#update-existing-file-in-repository| PUT | /api/v4/projects/:id/repository/files/:file_path  | 3278 | `grep -E 'PUT /api/v4/projects/[[:digit:]]+/repository/files/'` |
+|文件|删除|https://docs.gitlab.com/ee/api/repository_files.html#delete-existing-file-in-repository| DELETE | /api/v4/projects/:id/repository/files/:file_path  | 295 | `grep -E 'DELETE /api/v4/projects/[[:digit:]]+/repository/files/'` |
 
 
+由于CDN对静态md文件的缓存，非api统计的读文件次数要少
 
 
+## jmeter
 
+日常的主要操作是读与写，两者的比例大致设定为4：1
 
-
-
-
-## 规划
+批量创建用户 -> 删除用户
