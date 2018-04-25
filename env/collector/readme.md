@@ -18,13 +18,17 @@ $ docker run --rm influxdb influxd config > influxdb.conf
 
 open graphite, http, udp options
 
+
 create db
 
 ```
-curl -G http://localhost:8086/query --data-urlencode "q=CREATE DATABASE jmeter"
-curl -G http://localhost:8086/query --data-urlencode "q=CREATE DATABASE docker"
-curl -G http://localhost:8086/query --data-urlencode "q=CREATE DATABASE gitlab"
+curl -X POST http://localhost:8086/query --data-urlencode "q=CREATE DATABASE jmeter"
+curl -X POST http://localhost:8086/query --data-urlencode "q=CREATE DATABASE cadvisor"
+curl -X POST http://localhost:8086/query --data-urlencode "q=CREATE DATABASE gitlab"
 ```
+
+
+
 
 
 

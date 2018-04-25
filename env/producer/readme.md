@@ -21,6 +21,8 @@ https://docs.gitlab.com/omnibus/docker/
 ## gitlab采集metric
 
 root帐户，登陆gitlab后台，配置influxdb
+https://docs.gitlab.com/ee/administration/monitoring/performance/influxdb_configuration.html
+
 
 ![](./gitlab-metric.png)
 
@@ -37,3 +39,5 @@ root帐户，登陆gitlab后台，配置influxdb
 
 ## docker 采集 metric
 
+setup cadvisor with influxdb
+https://github.com/google/cadvisor/blob/master/docs/storage/influxdb.md

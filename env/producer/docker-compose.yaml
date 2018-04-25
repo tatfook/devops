@@ -14,4 +14,14 @@ services:
     mem_limit: 4g
     memswap_limit: 0
     oom_kill_disable: true
+  monitor:
+    image: google/cadvisor
+    command: -storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=10.28.18.9:8086
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
 
