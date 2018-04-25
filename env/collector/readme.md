@@ -19,6 +19,7 @@ $ docker run --rm influxdb influxd config > influxdb.conf
 open graphite, http, udp options
 
 
+
 create db
 
 ```
@@ -27,9 +28,9 @@ curl -X POST http://localhost:8086/query --data-urlencode "q=CREATE DATABASE cad
 curl -X POST http://localhost:8086/query --data-urlencode "q=CREATE DATABASE gitlab"
 ```
 
+如果使用了2003端口，那么采集的数据会存放在graphite数据库中
 
-
-
+![](./jmeter-graphite-listener.png)
 
 
 jmeter
@@ -39,6 +40,7 @@ http://jmeter.apache.org/usermanual/realtime-results.html
 http://jmeter.apache.org/usermanual/component_reference.html#Backend_Listener
 
 1. jmeter add backend listener
+
 
 ![](./jmeter-backend-listener.png)
 
