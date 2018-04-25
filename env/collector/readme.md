@@ -11,6 +11,15 @@ influxdb ref:
 
 https://hub.docker.com/_/influxdb/
 
+
+create config file
+
+$ docker run --rm influxdb influxd config > influxdb.conf
+
+open graphite, http, udp options
+
+create db
+
 ```
 curl -G http://localhost:8086/query --data-urlencode "q=CREATE DATABASE jmeter"
 curl -G http://localhost:8086/query --data-urlencode "q=CREATE DATABASE docker"

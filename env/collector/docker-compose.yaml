@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 
 services:
   ui:
@@ -13,6 +13,9 @@ services:
   db:
     image: influxdb
     ports:
+      - "2003:2003"
       - "8086:8086"
+      - "8089:8089/udp"
     volumes:
       - ./volume/influxdb:/var/lib/influxdb
+      - ./conf/influxdb.conf:/etc/influxdb/influxdb.conf

@@ -1,0 +1,17 @@
+version: '2.2'
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:9.4.6-ce.0
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./gitlab/config:/etc/gitlab
+      - ./gitlab/logs:/var/log/gitlab
+      - ./gitlab/data:/var/opt/gitlab
+    cpus: 4
+    mem_limit: 4g
+    memswap_limit: 0
+    oom_kill_disable: true
+
