@@ -1,6 +1,4 @@
-
-
-
+# collector
 
 grafana ref:
 
@@ -391,7 +389,7 @@ https://github.com/google/cadvisor/blob/c094ef0d2a3de380d516ff26bca13d2585ffe58f
 - tx_errors
 
 
-``
+```
 $ docker exec -it collector_db_1 influx --database 'cadvisor' -execute 'show field keys'
 name: cpu_usage_per_cpu
 fieldKey fieldType
@@ -655,14 +653,35 @@ fieldKey fieldType
 -------- ---------
 duration float
 
-
 ```
 
 
 
+## jmeter 分布式
+
+ref:  http://keepwork.com/dreamanddead/opsway/jmeter
 
 
 
+
+分布式的agent，运行
+`./apache-jmeter-4.0/bin/jmeter-server.bat`
+
+
+控制所有agent的server端，运行
+`./apache-jmeter-4.0/bin/jmeter.bat -n -t ./test.jmx -R 10.27.2.210 -l test.jtl -e -o report_test`
+
+-R指定了agent的ip地址，用`，`分隔开
+
+目前已有的agent
+- 10.27.2.242
+- 10.27.2.210
+- 10.27.3.9
+- 10.27.3.13
+- 10.27.2.13
+
+master
+- 10.27.2.196
 
 
 
